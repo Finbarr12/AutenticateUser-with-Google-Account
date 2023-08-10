@@ -13,6 +13,21 @@ app.get(
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
+app.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/protect",
+    failureRedirect: "/auth/failure",
+  })
+);
+
+app.get("/protect", (req, res) => {
+  return res.send("hello");
+});
+app.get("/auth/failure", (req, res) => {
+  return res.send("failed to authnticate");
+});
+
 app.use(express.json());
 // console.log("man");
 
